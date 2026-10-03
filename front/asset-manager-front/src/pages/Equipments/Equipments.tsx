@@ -1,82 +1,27 @@
 import "./Equipments.css";
-import { useEffect, useState } from "react";
 import type { Equipment } from "../../types/Equipment";
-import { api } from "../../api/api";
 import { EquipmentTable } from "../../components/Equipments/EquipmentTable/EquipmentTable";
 import { EquipmentDetails } from "../../components/Equipments/EquipmentDetails/EquipmentsDetails";
 import { EquipmentForm } from "../../components/Equipments/EquipmentForm/EquipmentForm";
+import { useEquipmentForm } from "../../hooks/useEquipmentForm";
+import { useEquipments } from "../../hooks/useEquipments";
+import { useCategories } from "../../hooks/useCategories";
+import { useBrands } from "../../hooks/useBrands";
+import { useState } from "react";
 
 export function Equipments(){
-    const[equipments, setEquipments] = useState<Equipment[]>([]);
-    const[selectdEquipment, setSelectdEquipment] = useState<Equipment | null>(null);
-    const[showFrom, setShowForm] = useState(false);
-    const [formData, setFormData] = useState({
-        name: "",
-        serialNumber: "",
-        model: "",
-        categoryId: "",
-        brandId: "",
-        status: "",
-        description: "",
-        purchaseDate: "",
-        purchaseValue: ""
-    });
-    const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
-    const [brands, setBrands] = useState<{ id: number; name: string }[]>([]);
+    const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
+    const [showForm, setShowForm] = useState(false);
+    const {formData, setFormData, clearForm, getEquipmentData} = useEquipmentForm();
+    const {equipments, addEquipment} = useEquipments();
+    const {categories} = useCategories();
+    const {brands} = useBrands();
 
-    useEffect(() =>{
-        api.get("/equipments").then(response => {setEquipments(response.data)})
-            .catch(error => {console.error(error)})
-
-        api.get("/categories")
-            .then(response => {
-                setCategories(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-        api.get("/brands")
-            .then(response => {
-                setBrands(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-        }, []);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        const equipementData = {
-            name: formData.name,
-            serialNumber: formData.serialNumber,
-            model: formData.model,
-            categoryId: Number(formData.categoryId),
-            brandId: Number(formData.brandId),
-            status: formData.status,
-            description: formData.description,
-            purchaseDate: formData.purchaseDate,
-            purchaseValue: Number(formData.purchaseValue)
-        }
-
-        const clearForm = () => {
-            setFormData({
-                name: "",
-                serialNumber: "",
-                model: "",
-                categoryId: "",
-                brandId: "",
-                status: "",
-                description: "",
-                purchaseDate: "",
-                purchaseValue: ""
-            })
-        }
         
-        api.post("/equipments", equipementData).then(() => {
-            api.get("/equipments").then(response => {setEquipments(response.data)})
+        addEquipment(getEquipmentData()).then(() => {
             clearForm();
             setShowForm(false);
         }).catch(error => {console.error(error)})
@@ -92,7 +37,7 @@ export function Equipments(){
                 Novo equipamento
             </button>
 
-            {showFrom && (
+            {showForm && (
                <EquipmentForm 
                     formData={formData} 
                     setFormData={setFormData} 
@@ -102,12 +47,12 @@ export function Equipments(){
                     onCancel={() => setShowForm(false)}
                 />
             )}
-            <EquipmentTable equipments={equipments} onSelectEquipment={setSelectdEquipment}/>
+            <EquipmentTable equipments={equipments} onSelectEquipment={setSelectedEquipment}/>
 
-            {selectdEquipment && (
-                <EquipmentDetails equipment={selectdEquipment} onClose={() => setSelectdEquipment(null)}/>
+            {selectedEquipment && (
+                <EquipmentDetails equipment={selectedEquipment} onClose={() => setSelectedEquipment(null)}/>
             )}
         </div>
     )
 }
-//Avisar o chat que funcionou e continuar o proximo passo
+//Avisar o chat que funcionou e continuar para criar a edição e exclusão dos equipamentos
