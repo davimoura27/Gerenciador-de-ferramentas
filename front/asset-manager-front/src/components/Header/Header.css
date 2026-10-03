@@ -1,0 +1,20 @@
+header {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 20px;
+}
+
+header div {
+    display:  flex;
+    align-items: center;
+    gap: 12px;
+}
