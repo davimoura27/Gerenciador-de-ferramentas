@@ -7,4 +7,9 @@ export interface Equipment {
     category: string;
     description: string;
     status: "AVAILABLE" | "IN_USE" | "MAINTENANCE" | "DISPOSED";
+    serialNumber: string;
+    purchaseDate: string;
+    purchaseValue: number;
+    createdAt: string;
+    updatedAt: string;
 }

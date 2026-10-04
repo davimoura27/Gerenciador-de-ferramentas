@@ -7,24 +7,57 @@ import { useEquipmentForm } from "../../hooks/useEquipmentForm";
 import { useEquipments } from "../../hooks/useEquipments";
 import { useCategories } from "../../hooks/useCategories";
 import { useBrands } from "../../hooks/useBrands";
-import { useState } from "react";
+import React, { useState } from "react";
+import { getEquipmentById } from "../../api/equipmentApi";
 
 export function Equipments(){
     const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
     const [showForm, setShowForm] = useState(false);
-    const {formData, setFormData, clearForm, getEquipmentData} = useEquipmentForm();
-    const {equipments, addEquipment} = useEquipments();
+    const {formData, setFormData, clearForm, getEquipmentData, fillForm} = useEquipmentForm();
+    const {equipments, addEquipment, editEquipment} = useEquipments();
     const {categories} = useCategories();
     const {brands} = useBrands();
+    const [equipmentToEdit, setEquipmentToEdit] = useState<Equipment | null>(null);
 
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        
-        addEquipment(getEquipmentData()).then(() => {
-            clearForm();
-            setShowForm(false);
-        }).catch(error => {console.error(error)})
+
+        if(equipmentToEdit){
+            console.log("Dados enviados:", getEquipmentData());
+
+            editEquipment(equipmentToEdit.id, getEquipmentData()).then(() => {
+                clearForm();
+                setEquipmentToEdit(null)
+                setShowForm(false);
+            }).catch(error => console.error(error))
+        }else{
+            addEquipment(getEquipmentData()).then(() => {
+                clearForm();
+                setShowForm(false);
+            }).catch(error => {console.error(error)})
+        }
+    }
+
+    const handleEditEquipment = (equipment: Equipment) => {
+        getEquipmentById(equipment.id).then(response => {
+            const fullEquipment = response.data;
+            const brand = brands.find(brand => brand.name === equipment.brand)
+            const category = categories.find(category => category.name === equipment.category)
+
+            if(!brand || !category) return;
+     
+            setEquipmentToEdit(fullEquipment);
+            fillForm(fullEquipment, brand.id , category.id)       
+        })
+       setShowForm(true);      
+       
+    }
+
+    const handleCancelForm = () => {
+        clearForm();
+        setEquipmentToEdit(null);
+        setShowForm(false);
     }
 
     return(
@@ -44,10 +77,11 @@ export function Equipments(){
                     categories={categories} 
                     brands={brands} 
                     onSubmit={handleSubmit} 
-                    onCancel={() => setShowForm(false)}
+                    onCancel={handleCancelForm}
+                    equipmentToEdit={equipmentToEdit}
                 />
             )}
-            <EquipmentTable equipments={equipments} onSelectEquipment={setSelectedEquipment}/>
+            <EquipmentTable equipments={equipments} onSelectEquipment={setSelectedEquipment} onEditEquipment={handleEditEquipment}/>
 
             {selectedEquipment && (
                 <EquipmentDetails equipment={selectedEquipment} onClose={() => setSelectedEquipment(null)}/>
@@ -55,4 +89,4 @@ export function Equipments(){
         </div>
     )
 }
-//Avisar o chat que funcionou e continuar para criar a edição e exclusão dos equipamentos
+//Avisar o chat que funcionou e continuar para criar exclusão dos equipamentos

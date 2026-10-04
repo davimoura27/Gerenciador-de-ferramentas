@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Equipment } from "../types/Equipment";
-import { createEquipments, getEquipments } from "../api/equipmentApi";
+import { createEquipments, getEquipments, updateEquipment } from "../api/equipmentApi";
 
 export function useEquipments(){
     const [equipments, setEquipments] = useState<Equipment[]>([]);
@@ -24,9 +24,25 @@ export function useEquipments(){
             .then(response => {setEquipments(response.data)});
     }
 
+    const editEquipment = (id: number, equipmentData: {
+        name: string;
+        serialNumber: string;
+        model: string;
+        categoryId: number;
+        brandId: number;
+        status: string;
+        description: string;
+        purchaseDate: string;
+        purchaseValue: number;
+    }) => {
+        return updateEquipment(id, equipmentData).then(() => {return getEquipments()})
+            .then(response => {setEquipments(response.data)})
+    }
+
     return {
         equipments,
         setEquipments,
-        addEquipment
+        addEquipment,
+        editEquipment
     };
 }

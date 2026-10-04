@@ -1,5 +1,6 @@
 
 import type { FormEvent } from "react";
+import type { Equipment } from "../../../types/Equipment";
 
 interface EquipmentFormProps {
     formData: {
@@ -29,11 +30,12 @@ interface EquipmentFormProps {
     categories: { id: number; name: string }[];
     brands: { id: number; name: string }[];
 
+    equipmentToEdit: Equipment | null;
     onSubmit: (event: FormEvent<HTMLFormElement>) => void;
     onCancel: () => void;
 }
 
-export function EquipmentForm({formData, setFormData, categories, brands, onSubmit, onCancel} : EquipmentFormProps){
+export function EquipmentForm({formData, setFormData, categories, brands, onSubmit, onCancel, equipmentToEdit} : EquipmentFormProps){
     return(
         <div className="equipment-form">
             <h2>Novo equipamento</h2>
@@ -133,7 +135,7 @@ export function EquipmentForm({formData, setFormData, categories, brands, onSubm
                     />
                 </div>
                 <button type="submit">
-                    Cadastrar
+                    {equipmentToEdit ? "Editar" : "Cadastrar"}
                 </button>
                 <button type="button" onClick={onCancel}>
                     Cancelar
