@@ -3,9 +3,10 @@ import type { Equipment } from "../../../types/Equipment";
 interface EquipmentTableProps {
     equipments: Equipment[];
     onSelectEquipment: (equipment: Equipment) => void;
+    onEditEquipment: (equipment: Equipment) => void;
 }
 
-export function EquipmentTable({ equipments, onSelectEquipment} : EquipmentTableProps) {
+export function EquipmentTable({ equipments, onSelectEquipment, onEditEquipment} : EquipmentTableProps) {
     const getStatusLabel = (status: Equipment["status"]) => {
         switch (status) {
             case "AVAILABLE":
@@ -18,6 +19,7 @@ export function EquipmentTable({ equipments, onSelectEquipment} : EquipmentTable
                 return "Descartado";
         }
     };
+
 
     return (
         <div>
@@ -50,6 +52,9 @@ export function EquipmentTable({ equipments, onSelectEquipment} : EquipmentTable
                             <td>
                                 <button onClick={() => onSelectEquipment(equipment)}>
                                     Ver Detalhes
+                                </button>
+                                <button onClick={() => onEditEquipment(equipment)}>
+                                    Editar
                                 </button>
                             </td>
                         </tr>
