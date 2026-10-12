@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Equipment } from "../types/Equipment";
-import { createEquipments, getEquipments, updateEquipment } from "../api/equipmentApi";
+import { createEquipments, deleteEquipment, getEquipments, updateEquipment } from "../api/equipmentApi";
 
 export function useEquipments(){
     const [equipments, setEquipments] = useState<Equipment[]>([]);
@@ -39,10 +39,17 @@ export function useEquipments(){
             .then(response => {setEquipments(response.data)})
     }
 
+    const delEquipment = (id: number) => {
+        return deleteEquipment(id).then(() => {setEquipments(
+            prevEquipments => prevEquipments.filter(equipment => equipment.id !== id))});
+    }
+
     return {
         equipments,
         setEquipments,
         addEquipment,
-        editEquipment
+        editEquipment,
+        delEquipment,
     };
+
 }

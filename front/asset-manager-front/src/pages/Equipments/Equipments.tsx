@@ -14,7 +14,7 @@ export function Equipments(){
     const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
     const [showForm, setShowForm] = useState(false);
     const {formData, setFormData, clearForm, getEquipmentData, fillForm} = useEquipmentForm();
-    const {equipments, addEquipment, editEquipment} = useEquipments();
+    const {equipments, addEquipment, editEquipment, delEquipment} = useEquipments();
     const {categories} = useCategories();
     const {brands} = useBrands();
     const [equipmentToEdit, setEquipmentToEdit] = useState<Equipment | null>(null);
@@ -60,6 +60,14 @@ export function Equipments(){
         setShowForm(false);
     }
 
+    const handleDeleteEquipment = (equipment: Equipment) => {
+        const confirm = window.confirm(`Tem certeza que deseja excluir o equipamento "${equipment.name}"?`)
+        if(!confirm) return;
+        
+        delEquipment(equipment.id).then(() => alert("Equipamento excluido com sucesso"))
+            .catch(error => console.error(error))
+    }
+
     return(
         <div className="equipments-page">
             <div className="equipments-header">
@@ -81,7 +89,12 @@ export function Equipments(){
                     equipmentToEdit={equipmentToEdit}
                 />
             )}
-            <EquipmentTable equipments={equipments} onSelectEquipment={setSelectedEquipment} onEditEquipment={handleEditEquipment}/>
+            <EquipmentTable 
+                equipments={equipments} 
+                onSelectEquipment={setSelectedEquipment} 
+                onEditEquipment={handleEditEquipment}
+                onDeleteEquipment={handleDeleteEquipment}
+                />
 
             {selectedEquipment && (
                 <EquipmentDetails equipment={selectedEquipment} onClose={() => setSelectedEquipment(null)}/>

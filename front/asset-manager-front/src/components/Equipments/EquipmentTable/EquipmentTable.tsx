@@ -4,9 +4,10 @@ interface EquipmentTableProps {
     equipments: Equipment[];
     onSelectEquipment: (equipment: Equipment) => void;
     onEditEquipment: (equipment: Equipment) => void;
+    onDeleteEquipment: (equipment: Equipment) => void;
 }
 
-export function EquipmentTable({ equipments, onSelectEquipment, onEditEquipment} : EquipmentTableProps) {
+export function EquipmentTable({ equipments, onSelectEquipment, onEditEquipment, onDeleteEquipment} : EquipmentTableProps) {
     const getStatusLabel = (status: Equipment["status"]) => {
         switch (status) {
             case "AVAILABLE":
@@ -55,6 +56,9 @@ export function EquipmentTable({ equipments, onSelectEquipment, onEditEquipment}
                                 </button>
                                 <button onClick={() => onEditEquipment(equipment)}>
                                     Editar
+                                </button>
+                                <button onClick={() => onDeleteEquipment(equipment)}>
+                                    Excluir
                                 </button>
                             </td>
                         </tr>

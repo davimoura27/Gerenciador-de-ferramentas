@@ -38,3 +38,7 @@ export function updateEquipment(id: number, equipmentData: {
 }){
     return api.put(`/equipments/${id}`, equipmentData);
 }
+
+export function deleteEquipment(id: number){
+    return api.delete(`/equipments/${id}`);
+}

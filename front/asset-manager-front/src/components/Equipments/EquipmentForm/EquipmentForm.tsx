@@ -36,6 +36,7 @@ interface EquipmentFormProps {
 }
 
 export function EquipmentForm({formData, setFormData, categories, brands, onSubmit, onCancel, equipmentToEdit} : EquipmentFormProps){
+    
     return(
         <div className="equipment-form">
             <h2>Novo equipamento</h2>
