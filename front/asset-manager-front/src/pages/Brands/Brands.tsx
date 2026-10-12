@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useBrands } from "../../hooks/useBrands"
-import type { Brand } from "../../types/Equipment";
+import type { Brand } from "../../types/Brand";
 import { BrandTable } from "../../components/Brands/BrandTable/BrandTable";
 import { BrandForm } from "../../components/Brands/BrandForm/BrandForm";
 import "./Brands.css";

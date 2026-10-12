@@ -13,8 +13,3 @@ export interface Equipment {
     createdAt: string;
     updatedAt: string;
 }
-
-export interface Brand {
-    id: number;
-    name: string
-}

@@ -1,0 +1,103 @@
+.categories-page {
+    width: 100%;
+}
+
+.new-category-button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #111827;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.new-category-button:hover {
+    background-color: #171f29;
+}
+
+.category-form {
+    margin-bottom: 24px;
+    padding: 24px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.category-form h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.category-form form {
+    display: grid;
+    gap: 16px;
+}
+
+.category-form form div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.category-form label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.category-form input {
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.category-form button {
+    margin-top: 12px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #374151;
+    color: white;
+    cursor: pointer;
+}
+
+.category-form button:hover {
+    background-color: #2c3947;
+}
+
+.categories-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.categories-table th,
+.categories-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.categories-table td {
+    font-size: 14px;
+}
+
+.categories-table button {
+    padding: 7px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #374151;
+    font-size: 13px;
+    cursor: pointer;
+    margin-right: 6px;
+}
+
+.categories-table button:hover {
+    background-color: #f3f4f6;
+}

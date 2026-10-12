@@ -1,5 +1,5 @@
 
-import type { Brand } from "../../../types/Equipment";
+import type { Brand } from "../../../types/Brand";
 
 interface BrandTableProps {
     brands: Brand[];
